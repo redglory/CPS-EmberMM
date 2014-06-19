@@ -8,8 +8,8 @@ Trigger Ember Media Manager scrapping after renamer.after event
 Installation:
 ===========
 
-1. Must have Ember Media Manager (EMM) installed ... (DUH)
-2. Clone repo to your CouchPotatoServer (CPS) "data_dir" (replaces "custom_scripts" folder)
+1. Must have Ember Media Manager (EMM) installed 
+2. Clone repo to your CouchPotatoServer (CPS) "data_dir" inside "custom_scripts" folder
 3. Restart CPS (to activate EMM configurations)
 4. Enable EMM on the notifications tab
 4. Configure your custom EMM settings (app path and custom command line arguments)
