@@ -3,8 +3,9 @@ import time
 import traceback
 
 from couchpotato.core.logger import CPLog
-from couchpotato.core.event import addEvent
+from couchpotato.core.event import addEvent, fireEvent
 from couchpotato.core.plugins.base import Plugin
+from couchpotato.environment import Env
 
 
 log = CPLog(__name__)
@@ -50,21 +51,21 @@ class EmberMediaManager(Plugin):
     ###########################################
     def run_ember(self, message = None, group = None):
         # Ember Media Manager installation path
-        app_path = self.conf('app_path', default = 'C:\\Ember Media Manager BETA') #['D:\\EmberMediaManager\\Ember Media Manager.exe']
+        app_path = self.conf('app_path', default = 'C:\\Ember Media Manager BETA\\Ember Media Manager.exe') #['D:\\EmberMediaManager\\Ember Media Manager.exe']
         # Command Line Parameters
-        params = splitString(self.conf('custom_params'), ' ')
+        app_args = splitString(self.conf('app_args'), ' ')
         # Fall back to default parameters if empty
-        if len(params) == 0:
-            params.append('-newauto')
-            params.append('-all')
-            params.append('-nowindow')
+        if len(app_args) == 0:
+            app_args.append('-newauto')
+            app_args.append('-all')
+            app_args.append('-nowindow')
         
         command.append(app_path)
-        command.append(params)
+        command.append(app_args)
 
         # Lauch Ember Media Manager
         startTime = time.time()
-        log.info("Start scrapping with Ember Media Manager with params: %s", str(command))
+        log.info("Start scrapping with Ember Media Manager with application arguments: %s", str(command))
         log.debug("IMDB identifier: %s", group['identifier']) # IMDB identifier
         log.debug("Movie name: %s", group['dirname']) # Movie name
         log.debug("Downloaded Movie directory: %s", group['parentdir']) # Download movie directory
@@ -96,7 +97,7 @@ config = [{
             'list': 'notification_providers',
             'name': 'embermediamanager',
             'label': 'Ember Media Manager',
-            'description': '1.3.20+ versions',
+            'description': 'Ember Media Manager 1.3.20+ versions',
             'options': [
                 {
                     'name': 'enabled',
@@ -106,14 +107,14 @@ config = [{
                 {
                     'name': 'app_path',
                     'label': 'Application Path',
-                    'default': 'C:\\Ember Media Manager BETA',
+                    'default': 'C:\\Ember Media Manager BETA\\Ember Media Manager.exe',
                 },
                 {
-                    'name': 'custom_params',
-                    'label': 'Custom Command Line Parameters',
+                    'name': 'app_args',
+                    'label': 'Custom Command Line Arguments',
                     'advanced': True,
                     'default': '-newauto -all -nowindow',
-                    'description': 'Choose your custom command line parameters to call Ember Media Manager, separated by <space>',
+                    'description': 'Choose your custom command line arguments to call Ember Media Manager, separated by <space>',
                 },
             ],
         }
