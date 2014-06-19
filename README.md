@@ -1,9 +1,13 @@
 CPS-EmberMM
 ===========
 
-CouchPotatoScript postprocess script to call Ember Media Manager after Renamer event
+CouchPotatoServer (CPS) custom PostProcess scripts: 
+===========
+
+Trigger Ember Media Manager scrapping after renamer.after event
 
 Installation:
+===========
 
 1. Must have Ember Media Manager (EMM) installed ... (DUH)
 2. Clone repo to your CouchPotatoServer (CPS) "data_dir", inside "custom_scripts" folder
@@ -12,5 +16,11 @@ Installation:
 4. Configure your custom EMM settings (app path and custom command line arguments)
 5. Restart CPS (to autoload your custom script)
 6. Enjoy!
- 
+
+TODO's:
+===========
+Call EMM only on Movie Folder on scrapping.
+Improve CPS script configuration
+
+
 Report any issues you might have
