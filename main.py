@@ -4,6 +4,7 @@ import traceback
 
 from couchpotato.core.logger import CPLog
 from couchpotato.core.event import addEvent, fireEvent
+from couchpotato.core.helpers.variable import splitString
 from couchpotato.core.plugins.base import Plugin
 from couchpotato.environment import Env
 
@@ -49,27 +50,31 @@ class EmberMediaManager(Plugin):
     ### -nowindow
     ### -run
     ###########################################
-    def run_ember(self, message = None, group = None):
+    def run_ember(self, message=None, group=None):
+
         # Ember Media Manager installation path
-        app_path = self.conf('app_path', default = 'C:\\Ember Media Manager BETA\\Ember Media Manager.exe') #['D:\\EmberMediaManager\\Ember Media Manager.exe']
+        app_path = self.conf('app_path')
         # Command Line Parameters
         app_args = splitString(self.conf('app_args'), ' ')
-        # Fall back to default parameters if empty
+
+        # Fallback to default parameters if empty
         if len(app_args) == 0:
             app_args.append('-newauto')
             app_args.append('-all')
             app_args.append('-nowindow')
-        
+
+        command = []
         command.append(app_path)
-        command.append(app_args)
+        for arg in app_args:
+            command.append(arg)
 
         # Lauch Ember Media Manager
         startTime = time.time()
-        log.info("Start scrapping with Ember Media Manager with application arguments: %s", str(command))
-        log.debug("IMDB identifier: %s", group['identifier']) # IMDB identifier
-        log.debug("Movie name: %s", group['dirname']) # Movie name
-        log.debug("Downloaded Movie directory: %s", group['parentdir']) # Download movie directory
-        
+        log.info("Starting Ember Media Manager with application arguments: %s", str(command))
+        log.debug("IMDB identifier: %s", group['identifier'])
+        log.debug("Movie name: %s", group['dirname'])
+        log.debug("Downloaded Movie directory: %s", group['parentdir'])
+
         try:
             p = Popen(command, stdout=PIPE)
             log.info("Ember Media Manager: running on PID: (" + str(p.pid) + ")")
@@ -77,10 +82,6 @@ class EmberMediaManager(Plugin):
             if res == 0:
                 endTime = time.time()
                 log.info("Ember Media Manager ran sucessfully for: %s seconds", str(int(endTime - startTime)))
-                #group['ember_ok'] = True
-                #log.debug("group['ember_ok'] = %s", group['ember_ok'])
-                #log.debug("sleeping for 10 seconds...")
-                #time.sleep(10)
                 return True
             else:
                 log.info("Ember Media Manager returned an error code: %s", str(res))

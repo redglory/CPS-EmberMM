@@ -26,10 +26,10 @@ config = [{
                 },
                 {
                     'name': 'app_args',
-                    'label': 'Custom Command Line Arguments',
+                    'label': 'Custom Command-Line Arguments',
                     'advanced': True,
                     'default': '-newauto -all -nowindow',
-                    'description': 'Choose your custom command line arguments to call Ember Media Manager, separated by <space>',
+                    'description': 'Choose your custom command-line arguments separated by space',
                 },
             ],
         }
