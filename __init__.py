@@ -22,7 +22,8 @@ config = [{
                 {
                     'name': 'app_path',
                     'label': 'Application Path',
-                    'default': 'C:\\Ember Media Manager BETA\\Ember Media Manager.exe',
+                    'type': 'directory',
+                    'description': 'Choose your Ember Media Manager application path',
                 },
                 {
                     'name': 'app_args',

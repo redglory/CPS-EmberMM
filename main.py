@@ -1,4 +1,5 @@
 from subprocess import Popen, PIPE
+import os
 import time
 import traceback
 
@@ -16,14 +17,15 @@ class EmberMediaManager(Plugin):
 
     def __init__(self):
 
-        # check if development setting is enabled to load new code and trigger renamer automatically
-        if Env.get('dev'):
-            def test():
-                fireEvent('renamer.scan')
-            addEvent('app.load', test);
+        if self.conf('enabled'): # only load plugin if it is enabled on configs
+            # check if development setting is enabled to load new code and trigger renamer automatically
+            if Env.get('dev'):
+                def test():
+                    fireEvent('renamer.scan')
+                addEvent('app.load', test)
 
-        addEvent('renamer.after', self.run_ember, priority = 90)
-        
+            addEvent('renamer.after', self.run_ember, priority=90)
+
     ###########################################
     #### Ember Media Manager Auto Scraping ####
     ###########################################
@@ -53,7 +55,7 @@ class EmberMediaManager(Plugin):
     def run_ember(self, message=None, group=None):
 
         # Ember Media Manager installation path
-        app_path = self.conf('app_path')
+        app_path = os.path.join(self.conf('app_path'), 'Ember Media Manager.exe')
         # Command Line Parameters
         app_args = splitString(self.conf('app_args'), ' ')
 
@@ -84,7 +86,7 @@ class EmberMediaManager(Plugin):
                 log.info("Ember Media Manager ran sucessfully for: %s seconds", str(int(endTime - startTime)))
                 return True
             else:
-                log.info("Ember Media Manager returned an error code: %s", str(res))
+                log.info("Ember Media Manager returned an error code: %s \n %s", (str(res), (traceback.format_exc())))
         except:
             log.error("Failed to call Ember Media Manager: %s", (traceback.format_exc()))
 
