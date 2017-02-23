@@ -31,26 +31,43 @@ class EmberMediaManager(Plugin):
     ###########################################
     ### Command line parameters
     ### -------------
-    ### -fullask
-    ### -fullauto
-    ### -missask
-    ### -missauto
-    ### -newask
-    ### -newauto
-    ### -markask
-    ### -markauto
-    ### -file
-    ### -folder
-    ### -export
-    ### -template
-    ### -resize
-    ### -all
-    ### -nfo
-    ### -posters
-    ### -fanart
-    ### -extra
-    ### -nowindow
+    ### -addmoviesource
+    ### -addtvshowsource
+    ### -cleanvideodb
     ### -run
+    ### -scanfolder
+    ### -scrapemovies
+    ###     # ScrapeType for -scrapemovies
+    ###     allask
+    ###     allauto
+    ###     allskip
+    ###     markedask
+    ###     markedauto
+    ###     markedskip
+    ###     missingask
+    ###     missingauto
+    ###     missingskip
+    ###     newask
+    ###     newauto
+    ###     newskip
+    ### -scrapetvshows
+    ###     # ScrapeType for -scrapetvshows
+    ###     allask
+    ###     allauto
+    ###     allskip
+    ###     markedask
+    ###     markedauto
+    ###     markedskip
+    ###     missingask
+    ###     missingauto
+    ###     missingskip
+    ###     newask
+    ###     newauto
+    ###     newskip
+    ### --verbose
+    ### -nowindow
+    ### -updatemovies
+    ### -updatetvshows
     ###########################################
     def run_ember(self, message=None, group=None):
 
@@ -61,8 +78,10 @@ class EmberMediaManager(Plugin):
 
         # Fallback to default parameters if empty
         if len(app_args) == 0:
-            app_args.append('-newauto')
-            app_args.append('-all')
+            app_args.append('-updatemovies')
+            app_args.append('-scrapemovies')
+            app_args.append('newauto')
+            app_args.append('all')
             app_args.append('-nowindow')
 
         command = []
