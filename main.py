@@ -73,20 +73,34 @@ class EmberMediaManager(Plugin):
 
         # Ember Media Manager installation path
         app_path = os.path.join(self.conf('app_path'), 'Ember Media Manager.exe')
-        # Command Line Parameters
-        app_args = splitString(self.conf('app_args'), ' ')
+        # Scraping arguments
+        scrape_args = splitString(self.conf('scrape_args'), ' ')
+        # Custom profile
+        custom_profile = self.conf('custom_profile')
 
-        # Fallback to default parameters if empty
-        if len(app_args) == 0:
-            app_args.append('-updatemovies')
-            app_args.append('-scrapemovies')
-            app_args.append('newauto')
-            app_args.append('all')
-            app_args.append('-nowindow')
+        # Fallback to default scraping arguments if empty
+        if len(scrape_args) == 0:
+            scrape_args.append('newauto')
+            scrape_args.append('all')
+            scrape_args.append('-nowindow')           
 
         command = []
         command.append(app_path)
-        for arg in app_args:
+
+        if custom_profile:
+            command.append('-profile')
+            command.append(custom_profile)
+
+        # Update complete movie library for new movies and scrape (must be set on CP settings)
+        if self.conf('update_library'):
+            command.append('-updatemovies')
+            command.append('-scrapemovies')
+        # Scrape only movie that CP has just downloaded (default configuration)
+        else:
+            command.append('-scanfolder')
+            command.append(group['parentdir'])
+
+        for arg in scrape_args:
             command.append(arg)
 
         # Lauch Ember Media Manager
